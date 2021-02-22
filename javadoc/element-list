@@ -1,0 +1,7 @@
+net.buscacio.vacccinationApi
+net.buscacio.vacccinationApi.controller
+net.buscacio.vacccinationApi.DTO
+net.buscacio.vacccinationApi.mapper
+net.buscacio.vacccinationApi.model
+net.buscacio.vacccinationApi.repository
+net.buscacio.vacccinationApi.service

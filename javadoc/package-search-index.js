@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"net.buscacio.vacccinationApi"},{"l":"net.buscacio.vacccinationApi.controller"},{"l":"net.buscacio.vacccinationApi.DTO"},{"l":"net.buscacio.vacccinationApi.mapper"},{"l":"net.buscacio.vacccinationApi.model"},{"l":"net.buscacio.vacccinationApi.repository"},{"l":"net.buscacio.vacccinationApi.service"}]

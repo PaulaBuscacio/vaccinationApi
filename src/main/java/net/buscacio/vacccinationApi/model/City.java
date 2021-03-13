@@ -4,7 +4,6 @@ package net.buscacio.vacccinationApi.model;
  * @author Paula Buscacio
  * */
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -22,14 +21,9 @@ public class City {
     @Column(name = "nome")
     private String name;
 
-    @JsonIgnore
     @ManyToOne(targetEntity = State.class)
     private State estado;
 
-    @Column(name = "uf")
-    private String uf;
-
-    @JsonIgnore
     @OneToMany(targetEntity = Vaccinated.class, mappedBy = "municipio")
     private List<Vaccinated> vacinados;
 

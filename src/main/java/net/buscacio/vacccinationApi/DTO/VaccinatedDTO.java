@@ -15,6 +15,6 @@ public class VaccinatedDTO {
     private String nome;
     private Long municipio;
     private LocalDate data;
-    private String vacina;
+    private Long vacina;
 
 }

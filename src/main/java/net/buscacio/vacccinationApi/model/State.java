@@ -4,7 +4,6 @@ package net.buscacio.vacccinationApi.model;
  * @author Paula Buscacio
  * */
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -27,7 +26,6 @@ public class State {
     @Column(name = "uf")
     private String uf;
 
-    @JsonIgnore
     @OneToMany(targetEntity = City.class, mappedBy = "estado")
     private List<City> cities;
 

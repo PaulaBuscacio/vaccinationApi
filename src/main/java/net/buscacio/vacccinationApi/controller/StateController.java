@@ -30,20 +30,20 @@ public class StateController {
     @GetMapping("")
     public ResponseEntity<List<StateDTO>> getAllStates() {
         List<State> states = this.stateService.getAllStates();
-        states.stream().map(this.vaccinationConverter::convertStateToDTO).collect(Collectors.toList());
-        return new ResponseEntity(states, HttpStatus.OK);
+        List<StateDTO> stateDTOList = states.stream().map(this.vaccinationConverter::convertStateToDTO).collect(Collectors.toList());
+        return new ResponseEntity(stateDTOList, HttpStatus.OK);
     }
 
     @GetMapping("/{uf}")
     public ResponseEntity<StateDTO> getStateByUf(@PathVariable String uf) {
        State state = this.stateService.getStateByUf(uf);
-       return state == null ? ResponseEntity.notFound().build() : ResponseEntity.ok(this.vaccinationConverter.convertStateToDTO(state));
+        return state == null ? ResponseEntity.notFound().build() : ResponseEntity.ok(this.vaccinationConverter.convertStateToDTO(state));
     }
 
     @PostMapping("")
     public ResponseEntity<StateDTO> saveState(@RequestBody StateDTO stateDTO) {
         State mappedState = this.vaccinationConverter.convertStateDTOToEntity(stateDTO);
-        return new ResponseEntity<StateDTO>(this.vaccinationConverter.convertStateToDTO(this.stateService.saveState(mappedState)), HttpStatus.CREATED);
+        return new ResponseEntity<>(this.vaccinationConverter.convertStateToDTO(this.stateService.saveState(mappedState)), HttpStatus.CREATED);
 
     }
 
@@ -52,7 +52,7 @@ public class StateController {
          State state = this.stateService.getStateById(id);
          state.setName(stateDTO.getNome());
          state.setUf(stateDTO.getSigla());
-        return new ResponseEntity<>(this.vaccinationConverter.convertStateToDTO(this.stateService.updateState(state)), HttpStatus.OK);
+        return new ResponseEntity<>(this.vaccinationConverter.convertStateToDTO(this.stateService.saveState(state)), HttpStatus.OK);
 
     }
 

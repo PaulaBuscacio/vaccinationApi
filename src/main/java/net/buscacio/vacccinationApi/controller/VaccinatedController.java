@@ -38,14 +38,15 @@ public class VaccinatedController {
     @GetMapping("")
     public ResponseEntity<List<VaccinatedDTO>> getAllVaccinated() {
         List<Vaccinated> vaccinatedList = this.vaccinatedService.getAllVaccinated();
-        vaccinatedList.stream().map(this.vaccinationConverter::convertVaccinatedToDTO).collect(Collectors.toList());
-        return new ResponseEntity(vaccinatedList, HttpStatus.OK);
+        List<VaccinatedDTO> vaccinatedListDTO = vaccinatedList.stream().map(this.vaccinationConverter::convertVaccinatedToDTO).collect(Collectors.toList());
+
+        return new ResponseEntity(vaccinatedListDTO, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<VaccinatedDTO> getVaccinatedById(@PathVariable Long id) {
         VaccinatedDTO vaccinatedDTO = this.vaccinationConverter.convertVaccinatedToDTO(this.vaccinatedService.getVaccinatedById(id));
-        return vaccinatedDTO == null ? ResponseEntity.notFound().build() : ResponseEntity.ok(vaccinatedDTO);
+        return new ResponseEntity<>(vaccinatedDTO, HttpStatus.OK);
     }
 
     @PostMapping("")
@@ -60,7 +61,8 @@ public class VaccinatedController {
         Vaccinated vaccinated = this.vaccinatedService.getVaccinatedById(id);
         vaccinated.setName(vaccinatedDTO.getNome());
         vaccinated.setMunicipio(cityService.getCityById(vaccinatedDTO.getMunicipio()));
-        vaccinated.setVacina(vaccineService.getVaccineByName(vaccinatedDTO.getVacina()));
+        vaccinated.setVacina(vaccineService.getVaccineById(vaccinatedDTO.getVacina()));
+        vaccinated.setVacina(vaccineService.getVaccineById(vaccinatedDTO.getVacina()));
         vaccinated.setDate(LocalDate.now());
         return new ResponseEntity<>(this.vaccinationConverter.convertVaccinatedToDTO(this.vaccinatedService.updateVaccinated(
                 vaccinated)), HttpStatus.OK);

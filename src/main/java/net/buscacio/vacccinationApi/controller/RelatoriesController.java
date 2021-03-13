@@ -4,7 +4,11 @@ package net.buscacio.vacccinationApi.controller;
  * @author Paula Buscacio
  * */
 
+import net.buscacio.vacccinationApi.model.State;
+import net.buscacio.vacccinationApi.model.Vaccine;
 import net.buscacio.vacccinationApi.service.RelatoriesService;
+import net.buscacio.vacccinationApi.service.StateService;
+import net.buscacio.vacccinationApi.service.VaccineService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -17,9 +21,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class RelatoriesController {
 
     private final RelatoriesService relatoriesService;
+    private final StateService stateService;
+    private final VaccineService vaccineService;
 
-    public RelatoriesController(RelatoriesService relatoriesService) {
+    public RelatoriesController(RelatoriesService relatoriesService, StateService stateService, VaccineService vaccineService) {
         this.relatoriesService = relatoriesService;
+        this.stateService = stateService;
+        this.vaccineService = vaccineService;
     }
 
     @GetMapping("city/{id}")
@@ -29,13 +37,15 @@ public class RelatoriesController {
 
     @GetMapping("state/{uf}")
     public ResponseEntity<String> geTtotalVaccinatedState(@PathVariable String uf) {
-        return new ResponseEntity<String>(this.relatoriesService.geTtotalVaccinatedState(uf), HttpStatus.OK);
+        State state = this.stateService.getStateByUf(uf);
+        return state == null ? ResponseEntity.notFound().build() : ResponseEntity.ok(this.relatoriesService.geTtotalVaccinatedState(uf));
     }
 
 
     @GetMapping("vaccine/{name}")
     public ResponseEntity<String> getTotalVaccinatedVaccine(@PathVariable String name) {
-        return new ResponseEntity<>(this.relatoriesService.getTotalVaccinatedVaccine(name), HttpStatus.OK);
+        Vaccine vaccine = this.vaccineService.getVaccineByName(name);
+        return vaccine == null ? ResponseEntity.notFound().build() : ResponseEntity.ok(this.relatoriesService.getTotalVaccinatedVaccine(name));
     }
 
     @GetMapping("/total")

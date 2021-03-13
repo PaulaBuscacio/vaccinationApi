@@ -27,12 +27,11 @@ public class VaccinationConverter {
         return stateDTO;
     }
 
-
     public CityDTO convertCityToDTO(City city) {
         CityDTO cityDTO = new CityDTO();
         cityDTO.setId(city.getId());
         cityDTO.setNome(city.getName());
-        cityDTO.setUF(city.getUf());
+        cityDTO.setUf(city.getEstado().getUf());
         return cityDTO;
     }
 
@@ -49,7 +48,7 @@ public class VaccinationConverter {
         vaccinatedDTO.setId(vaccinated.getId());
         vaccinatedDTO.setNome(vaccinated.getName());
         vaccinatedDTO.setMunicipio(vaccinated.getMunicipio().getId());
-        vaccinatedDTO.setVacina(vaccinated.getVacina().getName());
+        vaccinatedDTO.setVacina(vaccinated.getVacina().getId());
         vaccinatedDTO.setData(vaccinated.getDate());
         return vaccinatedDTO;
     }
@@ -68,7 +67,6 @@ public class VaccinationConverter {
         City city = new City();
         city.setId(cityDTO.getId());
         city.setName(cityDTO.getNome());
-        city.setUf(cityDTO.getUF());
         return city;
 
     }

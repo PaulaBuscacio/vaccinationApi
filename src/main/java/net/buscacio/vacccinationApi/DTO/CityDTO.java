@@ -11,5 +11,5 @@ public class CityDTO {
 
     private Long id;
     private String nome;
-    private String UF;
+    private String uf;
 }

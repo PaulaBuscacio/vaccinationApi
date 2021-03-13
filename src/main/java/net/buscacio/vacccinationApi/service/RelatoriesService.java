@@ -9,6 +9,7 @@ import net.buscacio.vacccinationApi.model.State;
 import net.buscacio.vacccinationApi.model.Vaccine;
 import org.springframework.stereotype.Service;
 
+
 @Service
 public class RelatoriesService {
 
@@ -33,6 +34,7 @@ public class RelatoriesService {
     }
 
     public String geTtotalVaccinatedState(String uf) {
+        
         State state = stateService.getStateByUf(uf);
         Integer vacinated;
         Integer sum = 0;
@@ -41,14 +43,18 @@ public class RelatoriesService {
             vacinated = city.getVacinados().size();
             sum = sum + vacinated;
         }
-        String message = "Total de vacinados no Estado " + state.getName() + ": " +  sum;
+        String message = "Total de vacinados no Estado " + state.getName() + ": " + sum;
         return message;
+
+
     }
 
     public String getTotalVaccinatedVaccine(String name) {
+
         Vaccine vaccine = vaccineService.getVaccineByName(name);
         String message = "Total de vacinados pela vacina " + vaccine.getName() + ": " + vaccine.getVacinados().size();
         return message;
+
     }
 
     public String getTotalVaccinated() {

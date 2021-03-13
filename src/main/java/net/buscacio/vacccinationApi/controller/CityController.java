@@ -33,8 +33,8 @@ public class CityController {
     @GetMapping("")
     public ResponseEntity<List<CityDTO>> getAllCities() {
         List<City> cities = cityService.getAllCities();
-        cities.stream().map(vaccinationConverter::convertCityToDTO).collect(Collectors.toList());
-        return new ResponseEntity(cities, HttpStatus.OK);
+        List<CityDTO> cityDTOList = cities.stream().map(vaccinationConverter::convertCityToDTO).collect(Collectors.toList());
+        return new ResponseEntity(cityDTOList, HttpStatus.OK);
     }
     @GetMapping("/{id}")
     public ResponseEntity<CityDTO> getCityById(@PathVariable Long id) {
@@ -44,15 +44,14 @@ public class CityController {
     @PostMapping("")
     public ResponseEntity<CityDTO> saveCity(@RequestBody CityDTO cityDTO) {
         City mappedCity = this.vaccinationConverter.convertCityDTOToEntity(cityDTO);
-        return new ResponseEntity<>(this.vaccinationConverter.convertCityToDTO(this.cityService.saveCity(mappedCity, cityDTO.getUF())), HttpStatus.CREATED);
+        return new ResponseEntity<>(this.vaccinationConverter.convertCityToDTO(this.cityService.saveCity(mappedCity, cityDTO.getUf())), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<CityDTO> updateCity(@PathVariable Long id, @RequestBody CityDTO cityDTO) {
-        City city = cityService.getCityById(id);
-        city.setName(cityDTO.getNome());
-        city.setUf(cityDTO.getUF());
-        return new ResponseEntity<>(this.vaccinationConverter.convertCityToDTO(this.cityService.updateCity(city)), HttpStatus.OK);
+        City city = this.cityService.getCityById(id);
+        return new ResponseEntity<>(this.vaccinationConverter.convertCityToDTO(this.cityService.saveCity(city, cityDTO.getUf())), HttpStatus.OK);
+
     }
 
     @DeleteMapping("/{id}")

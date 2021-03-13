@@ -30,15 +30,15 @@ public class VaccineController {
 
     @GetMapping("")
     public ResponseEntity<List<VaccineDTO>> getAllVaccines() {
-        List<Vaccine> vaccineList = vaccineService.getAllVaccines();
-        vaccineList.stream().map(vaccinationConverter :: convertVaccineToDTO).collect(Collectors.toList());
-        return new ResponseEntity(vaccineList, HttpStatus.OK);
+        List<Vaccine> vaccines = vaccineService.getAllVaccines();
+        return new ResponseEntity(vaccines.stream().map(vaccinationConverter :: convertVaccineToDTO).collect(Collectors.toList()), HttpStatus.OK);
     }
 
     @GetMapping("/{name}")
     public ResponseEntity<VaccineDTO> findVaccineByName(@PathVariable String name) {
-        VaccineDTO vaccineDTO = this.vaccinationConverter.convertVaccineToDTO((vaccineService.getVaccineByName(name)));
-        return vaccineDTO == null ? ResponseEntity.notFound().build() : ResponseEntity.ok(vaccineDTO);
+        Vaccine vaccine = this.vaccineService.getVaccineByName(name);
+        return vaccine == null ? ResponseEntity.notFound().build() : ResponseEntity.ok(this.vaccinationConverter.convertVaccineToDTO(vaccine));
+
     }
 
     @PostMapping("")
@@ -52,7 +52,7 @@ public class VaccineController {
         Vaccine vaccine = this.vaccineService.getVaccineById(id);
         vaccine.setName(vaccineDTO.getNome());
         vaccine.setOrigin(vaccineDTO.getOrigem());
-        return new ResponseEntity<>(this.vaccinationConverter.convertVaccineToDTO(this.vaccineService.updateVaccine(vaccine)), HttpStatus.OK);
+        return new ResponseEntity<>(this.vaccinationConverter.convertVaccineToDTO(this.vaccineService.saveVaccine(vaccine)), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
